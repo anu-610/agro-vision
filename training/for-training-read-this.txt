@@ -1,0 +1,5 @@
+The data set in which we trained our model is not uploaded in github, due to its large size.
+if you want to again train the model from scratch, then run the train.py after downloading and
+extracting the database from given link.
+
+https://www.kaggle.com/datasets/emmarex/plantdisease
