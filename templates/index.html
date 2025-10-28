@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Agro Vision - AI Farming Assistant</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2d5a27;
+            --secondary-green: #4a7c59;
+            --light-green: #8fbc8f;
+            --mint-green: #98fb98;
+            --lime-green: #32cd32;
+            --success-green: #28a745;
+            --earth-brown: #8b7355;
+            --cream-white: #f8f9fa;
+            --dark-green: #1a4d14;
+            --soft-yellow: #fff8dc;
+            --border-light: #e8f5e8;
+            --leafy-bg: #e9f7e9;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-green);
+            background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(45, 90, 39, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="50" font-size="20">🌾</text></svg>') repeat;
+            opacity: 0.1;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(-100px); }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(45, 90, 39, 0.85), rgba(74, 124, 89, 0.85)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23228b22" width="1200" height="600"/>ircle cx="200" cy="150" r="100" fill="%234a7c59" opacity="0.3.3"/>ircle cx="800" cy="400" r="150" fill="%232d5a27" opacity="0"0.3"/>ircle cx="1000" cy="200" r="80" fill="%23838fbc8f" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-top: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--success-green), var(--lime-green));
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(40, 167, 69, 0.5);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 3rem 0;
+            margin: 3rem 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: var(--secondary-green);
+            line-height: 1.8;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 3rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Detection Card - Updated Layout */
+        .detection-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-light);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .agro-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .agro-subtitle {
+            text-align: center;
+            color: var(--secondary-green);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        /* Upload Area - Styled like Screenshot */
+        .upload-section {
+            margin-bottom: 2rem;
+        }
+
+        .upload-area {
+            border: 3px dashed var(--light-green);
+            border-radius: 15px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            background: var(--leafy-bg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-area:hover {
+            border-color: var(--success-green);
+            background: rgba(152, 251, 152, 0.2);
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--lime-green);
+            background: rgba(50, 205, 50, 0.2);
+            transform: scale(1.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--light-green);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: var(--secondary-green);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtext {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* YouTube-Style Search Section */
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container:focus-within {
+            border-color: var(--success-green);
+            box-shadow: 0 4px 20px rgba(40, 167, 69, 0.2);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--primary-green);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .voice-button {
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--secondary-green);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border-left: 1px solid var(--border-light);
+        }
+
+        .voice-button:hover {
+            background: var(--leafy-bg);
+            color: var(--success-green);
+        }
+
+        .voice-button.recording {
+            color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.6; }
+        }
+
+        .voice-status {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--secondary-green);
+            text-align: center;
+        }
+
+        .voice-status.recording {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        /* Location Button */
+        .location-btn {
+            background: white;
+            border: 2px solid var(--border-light);
+            color: var(--secondary-green);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-btn:hover {
+            border-color: var(--success-green);
+            color: var(--success-green);
+        }
+
+        /* Diagnose Button */
+        .diagnose-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(45, 90, 39, 0.3);
+            width: 100%;
+        }
+
+        .diagnose-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(45, 90, 39, 0.4);
+        }
+
+        .diagnose-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .diagnose-btn.loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .diagnose-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Image Preview */
+        .image-preview {
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .preview-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .preview-image {
+            max-width: 250px;
+            max-height: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .results-card {
+            background: linear-gradient(135deg, rgba(152, 251, 152, 0.1), rgba(50, 205, 50, 0.1));
+            border: 2px solid var(--success-green);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results-card::before {
+            content: '✅';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+        }
+
+        .disease-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+        }
+
+        .disease-category {
+            display: inline-block;
+            background: var(--soft-yellow);
+            color: var(--earth-brown);
+            padding: 0.4rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .confidence-section {
+            margin: 1.5rem 0;
+        }
+
+        .confidence-bar {
+            background: var(--border-light);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+            position: relative;
+        }
+
+        .confidence-fill {
+            background: linear-gradient(45deg, var(--success-green), var(--lime-green));
+            height: 100%;
+            border-radius: 10px;
+            transition: width 2s ease;
+            position: relative;
+        }
+
+        .confidence-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .treatment-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .treatment-section h4 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .save-btn {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+        }
+
+        .new-btn {
+            background: transparent;
+            color: var(--secondary-green);
+            border: 2px solid var(--secondary-green);
+        }
+
+        .new-btn:hover {
+            background: var(--secondary-green);
+            color: white;
+        }
+
+        /* History Section */
+        .history-section {
+            margin-top: 3rem;
+        }
+
+        .history-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .clear-history-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-history-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .history-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-light);
+        }
+
+        .history-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .history-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: linear-gradient(135deg, var(--light-green), var(--mint-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .history-content {
+            padding: 1.5rem;
+        }
+
+        .history-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-disease {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .history-confidence {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success-green);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 3rem;
+            color: var(--secondary-green);
+            grid-column: 1 / -1;
+        }
+
+        .empty-history-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--success-green);
+            color: var(--success-green);
+        }
+
+        .alert-error {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--mint-green);
+            transform: translateY(-3px);
+        }
+
+        .footer p {
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .detection-card {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+
+            .search-container {
+                flex-direction: column;
+                border-radius: 15px;
+            }
+
+            .voice-button {
+                border-left: none;
+                border-top: 1px solid var(--border-light);
+                width: 100%;
+                justify-content: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .history-controls {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .detection-card {
+                padding: 1rem;
+            }
+
+            .agro-title {
+                font-size: 1.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .upload-area {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        .treatment-section pre {
+    font-family: inherit; /* Use the same font as the rest of the page */
+    white-space: pre-wrap; /* Allows text to wrap */
+    word-wrap: break-word; /* Ensures long words don't overflow */
+    margin: 0; /* Resets default margins */
+    font-size: 1rem; /* Adjust font size as needed */
+    color: var(--secondary-green); /* Match your existing style */
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>🌱 Agro Vision 🌱</h1>
+            <p>Upload an image, ask a question, and share your location for the best results.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h2>AI-Powered Farming Assistant</h2>
+            <p>Protect your crops and maximize your harvest with cutting-edge disease detection technology</p>
+            <button class="cta-button" onclick="scrollToDetection()">
+                Start Detection Now 🔬
+            </button>
+        </div>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Smart Farming Solutions 🌾</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔬</div>
+                    <h3>Disease Detection</h3>
+                    <p>Instantly identify plant diseases using advanced AI and machine learning algorithms with 95% accuracy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌧️</div>
+                    <h3>Weather Advice</h3>
+                    <p>Get real-time weather data and predictions to make informed farming decisions and protect your crops.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧪</div>
+                    <h3>Soil Insights</h3>
+                    <p>Comprehensive soil health monitoring and nutrient recommendations for optimal plant growth and yield.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Detection Section -->
+        <main class="main">
+            <div class="detection-card" id="detectionCard">
+                <h2 class="agro-title">
+                    🌿 Agro Vision 🌿
+                </h2>
+                <p class="agro-subtitle">Upload an image, ask a question, and share your location for the best results.</p>
+
+                <!-- Image Upload Section -->
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📤</div>
+                        <div class="upload-text">Click to upload an image</div>
+                        <div class="upload-subtext">or drag and drop</div>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+
+                <!-- YouTube-Style Search Section -->
+                <div class="search-section">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="Ask a question… e.g., 'My potato leaves have brown spots.'"
+                        >
+                        <button id="voiceButton" class="voice-button" title="Voice Search">
+                            🎤
+                        </button>
+                    </div>
+                    <div class="voice-status" id="voiceStatus"></div>
+                </div>
+
+                <!-- Location Button -->
+                <button class="location-btn" id="locationBtn">
+                    📍 Get My Location
+                </button>
+
+                <!-- Diagnose Button -->
+                <button id="analyzeBtn" class="diagnose-btn" disabled>
+                    Diagnose
+                </button>
+
+                <!-- Alert Area -->
+                <div id="alertArea"></div>
+
+                <!-- Results Section -->
+                <div id="resultsSection" class="results-section">
+                    <div class="results-card">
+                        <div class="disease-name" id="diseaseName">Disease Name</div>
+                        <div class="confidence-section">
+                            <strong>🎯 Confidence Level:</strong>
+                            <div class="confidence-bar">
+                                <div id="confidenceLevel" class="confidence-fill" style="width: 0%"></div>
+                            </div>
+                            <span id="confidenceText">0%</span>
+                        </div>
+
+                        <div class="treatment-section">
+                            <h4>💊 Recommended Treatment</h4>
+                            <ul class="treatment-steps" id="treatmentSteps">
+                                <li>Treatment steps will appear here</li>
+                            </ul>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="saveResult" class="action-btn save-btn">
+                                💾 Save to History
+                            </button>
+                            <button id="newAnalysis" class="action-btn new-btn">
+                                🔄 New Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div class="card history-section">
+                <div class="history-controls">
+                    <h2 class="section-title">
+                        📚 Analysis History
+                    </h2>
+                    <button id="clearHistory" class="clear-history-btn">
+                        🗑️ Clear All History
+                    </button>
+                </div>
+                
+                <div id="historyGrid" class="history-grid">
+                    <div class="empty-history">
+                        <div class="empty-history-icon">📋</div>
+                        <h3>No Analysis History</h3>
+                        <p>Your plant disease analysis history will appear here 🌱</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                </div>
+            </div>
+            <p>&copy; 2025 AgroVision - AI Farming Assistant. Empowering farmers with technology 🌾</p>
+            <p>Contact: contact@agrovision.com | +1 (555) 123-4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Global Variables
+        let recognition = null;
+        let isRecording = false;
+        let currentImage = null;
+        let analysisHistory = [];
+        let userLocation = null;
+
+        
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupImageUpload();
+            setupVoiceSearch();
+            setupFormHandling();
+            setupHistoryHandling();
+            setupLocationHandling();
+            loadHistory();
+        }
+
+        // Scroll to detection section
+        function scrollToDetection() {
+            document.getElementById('detectionCard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Image Upload System
+        function setupImageUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const imageInput = document.getElementById('imageInput');
+            const imagePreview = document.getElementById('imagePreview');
+
+            uploadArea.addEventListener('click', () => {
+                imageInput.click();
+            });
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type.startsWith('image/')) {
+                    imageInput.files = files;
+                    handleImageFile(files[0]);
+                }
+            });
+
+            imageInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleImageFile(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleImageFile(file) {
+            if (!file.type.startsWith('image/')) {
+                showAlert('Please select a valid image file 📸', 'error');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                showAlert('Image size should be less than 10MB 📏', 'warning');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImage = {
+                    file: file,
+                    dataUrl: e.target.result,
+                    name: file.name
+                };
+                
+                displayImagePreview(e.target.result, file.name);
+                validateForm();
+                showAlert('Image uploaded successfully! 📷✅', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayImagePreview(imageSrc, fileName) {
+            const imagePreview = document.getElementById('imagePreview');
+            
+            imagePreview.innerHTML = `
+                <div class="preview-container">
+                    <img src="${imageSrc}" alt="${fileName}" class="preview-image">
+                    <button class="remove-image" onclick="removeImage()">
+                        ❌
+                    </button>
+                </div>
+                <p style="margin-top: 0.5rem; color: var(--secondary-green); font-size: 0.9rem;"><strong>📁 File:</strong> ${fileName}</p>
+            `;
+            
+            imagePreview.style.display = 'block';
+        }
+
+        function removeImage() {
+            currentImage = null;
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.style.display = 'none';
+            imagePreview.innerHTML = '';
+            document.getElementById('imageInput').value = '';
+            validateForm();
+        }
+
+        // YouTube-Style Voice Search System
+        function setupVoiceSearch() {
+            const voiceButton = document.getElementById('voiceButton');
+            const searchInput = document.getElementById('searchInput');
+            const voiceStatus = document.getElementById('voiceStatus');
+
+            // Check browser support
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                voiceButton.disabled = true;
+                voiceButton.title = 'Speech recognition not supported';
+                voiceButton.style.opacity = '0';
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            let finalTranscript = '';
+
+            recognition.onstart = () => {
+                isRecording = true;
+                voiceButton.classList.add('recording');
+                voiceStatus.textContent = 'Listening... Speak now 🎤';
+                voiceStatus.classList.add('recording');
+            };
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    
+                    if (event.results[i].isFinal) {
+                        finalTranscript = transcript;
+                    } else {
+                        interimTranscript = transcript;
+                    }
+                }
+                
+                // Update search input in real-time
+                searchInput.value = finalTranscript + interimTranscript;
+                validateForm();
+            };
+
+            recognition.onend = () => {
+                isRecording = false;
+                voiceButton.classList.remove('recording');
+                voiceStatus.textContent = '';
+                voiceStatus.classList.remove('recording');
+                
+                if (finalTranscript.trim()) {
+                    searchInput.value = finalTranscript.trim();
+                    showAlert('Voice input captured! 🎤✅', 'success');
+                    validateForm();
+                }
+                
+                finalTranscript = '';
+            };
+
+            recognition.onerror = (event) => {
+                let errorMessage = 'Voice recognition error 🚫';
+                
+                switch(event.error) {
+                    case 'no-speech':
+                        errorMessage = 'No speech detected. Please try again 🤐';
+                        break;
+                    case 'audio-capture':
+                        errorMessage = 'Microphone not accessible 🎤❌';
+                        break;
+                    case 'not-allowed':
+                        errorMessage = 'Microphone access denied. Please enable permissions 🔒';
+                        break;
+                }
+                
+                showAlert(errorMessage, 'error');
+                
+                isRecording = false;
+                voiceButton.classList.remove('recording');
+                voiceStatus.textContent = '';
+                voiceStatus.classList.remove('recording');
+            };
+
+            voiceButton.addEventListener('click', () => {
+                if (isRecording) {
+                    recognition.stop();
+                } else {
+                    try {
+                        recognition.start();
+                    } catch (e) {
+                        showAlert('Failed to start voice recognition 🎤❌', 'error');
+                    }
+                }
+            });
+
+            // Add input validation
+            searchInput.addEventListener('input', validateForm);
+        }
+
+        // Location Handling
+        function setupLocationHandling() {
+            const locationBtn = document.getElementById('locationBtn');
+            
+            locationBtn.addEventListener('click', () => {
+                if (navigator.geolocation) {
+                    locationBtn.innerHTML = '📍 Getting Location...';
+                    locationBtn.disabled = true;
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            userLocation = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude
+                            };
+                            locationBtn.innerHTML = '✅ Location Captured';
+                            locationBtn.style.background = 'var(--success-green)';
+                            locationBtn.style.color = 'white';
+                            locationBtn.style.borderColor = 'var(--success-green)';
+                            showAlert('Location captured successfully! 📍✅', 'success');
+                            
+                            setTimeout(() => {
+                                locationBtn.disabled = false;
+                                locationBtn.innerHTML = '📍 Get My Location';
+                                locationBtn.style.background = '';
+                                locationBtn.style.color = '';
+                                locationBtn.style.borderColor = '';
+                            }, 3000);
+                        },
+                        (error) => {
+                            locationBtn.innerHTML = '❌ Location Failed';
+                            locationBtn.disabled = false;
+                            showAlert('Failed to get location. Please check permissions 📍❌', 'error');
+                            
+                            setTimeout(() => {
+                                locationBtn.innerHTML = '📍 Get My Location';
+                            }, 3000);
+                        }
+                    );
+                } else {
+                    showAlert('Geolocation is not supported by this browser 🚫', 'error');
+                }
+            });
+        }
+
+        // Form Handling
+        function setupFormHandling() {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.addEventListener('click', handleFormSubmission);
+        }
+
+        function validateForm() {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const searchText = document.getElementById('searchInput').value.trim();
+            
+            const hasImage = currentImage !== null;
+            const hasText = searchText.length > 0;
+            
+            analyzeBtn.disabled = !(hasImage || hasText);
+        }
+
+        async function handleFormSubmission() {
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const searchText = document.getElementById('searchInput').value.trim();
+            
+            if (!currentImage && !searchText) {
+                showAlert('⚠️ Please provide at least one input (image or text) to analyze your plant!', 'warning');
+                return;
+            }
+
+            // Show loading state
+            analyzeBtn.classList.add('loading');
+            analyzeBtn.disabled = true;
+
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 2500));
+
+
+            const formData = new FormData();
+
+            let fileInput = document.getElementById('imageInput');
+
+            if (fileInput.files.length > 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+            formData.append('text_query', searchText);
+
+
+
+            //Add coordinates to the form data if they exist
+            if (userLocation) {
+                formData.append('latitude', userLocation.latitude);
+                formData.append('longitude', userLocation.longitude);
+            }
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+
+            if (data.error)
+            {
+                //DO error handling
+            }
+            else{
+                displayResults(data.disease,"None", data.confidence, data.solution);
+            }
+
+            // Reset loading state
+            analyzeBtn.classList.remove('loading');
+            analyzeBtn.disabled = false;
+            
+            showAlert('Analysis completed successfully! 🎉', 'success');
+        }
+
+        function displayResults(diseaseName, category, confidence, treatment) {
+            console.log(treatment)
+            const resultsSection = document.getElementById('resultsSection');
+            const diseaseNameEl = document.getElementById('diseaseName');
+            const confidenceLevelEl = document.getElementById('confidenceLevel');
+            const confidenceTextEl = document.getElementById('confidenceText');
+            const treatmentStepsEl = document.getElementById('treatmentSteps');
+
+            diseaseNameEl.textContent = diseaseName;
+            confidenceTextEl.textContent = `${confidence}`;
+
+            // Display treatment steps
+            treatmentStepsEl.innerHTML = `<pre>${treatment}</pre>`;
+            
+            // Animate confidence bar
+            setTimeout(() => {
+                confidenceLevelEl.style.width = `${confidence}`;
+            }, 500);
+
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // History Management
+        function setupHistoryHandling() {
+            const saveBtn = document.getElementById('saveResult');
+            const newBtn = document.getElementById('newAnalysis');
+            const clearBtn = document.getElementById('clearHistory');
+
+            saveBtn.addEventListener('click', saveToHistory);
+            newBtn.addEventListener('click', startNewAnalysis);
+            clearBtn.addEventListener('click', clearAllHistory);
+        }
+
+        function saveToHistory() {
+            const diseaseName = document.getElementById('diseaseName').textContent;
+            const confidence = document.getElementById('confidenceText').textContent;
+            const treatmentSteps = document.getElementById('treatmentSteps').innerText;
+            const searchText = document.getElementById('searchInput').value.trim();
+
+            const historyItem = {
+                id: Date.now(),
+                date: new Date().toLocaleString(),
+                diseaseName: diseaseName,
+                confidence: confidence,
+                treatment: treatmentSteps,
+                image: currentImage ? currentImage.dataUrl : null,
+                location: userLocation ? `${userLocation.latitude.toFixed(4)}, ${userLocation.longitude.toFixed(4)}` : null,
+                timestamp: Date.now()
+            };
+
+            analysisHistory.unshift(historyItem);
+            
+            // Keep only last 50 items
+            if (analysisHistory.length > 50) {
+                analysisHistory = analysisHistory.slice(0, 50);
+            }
+            
+            localStorage.setItem('agrovision_history', JSON.stringify(analysisHistory));
+            
+            displayHistory();
+            showAlert('Results saved to history successfully! 💾✅', 'success');
+        }
+
+        function startNewAnalysis() {
+            // Reset form
+            currentImage = null;
+            userLocation = null;
+            document.getElementById('searchInput').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('imageInput').value = '';
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            validateForm();
+            document.getElementById('detectionCard').scrollIntoView({ behavior: 'smooth' });
+            showAlert('Ready for new analysis! 🔄', 'success');
+        }
+
+        function clearAllHistory() {
+            if (confirm('Are you sure you want to clear all analysis history? This action cannot be undone. 🗑️')) {
+                analysisHistory = [];
+                localStorage.removeItem('agrovision_history');
+                displayHistory();
+                showAlert('All history cleared successfully! 🗑️✅', 'success');
+            }
+        }
+
+        function loadHistory() {
+            const stored = localStorage.getItem('agrovision_history');
+            if (stored) {
+                try {
+                    analysisHistory = JSON.parse(stored);
+                    displayHistory();
+                } catch (e) {
+                    console.error('Error loading history:', e);
+                    analysisHistory = [];
+                }
+            }
+        }
+
+        function displayHistory() {
+            const historyGrid = document.getElementById('historyGrid');
+            
+            if (analysisHistory.length === 0) {
+                historyGrid.innerHTML = `
+                    <div class="empty-history">
+                        <div class="empty-history-icon">📋</div>
+                        <h3>No Analysis History</h3>
+                        <p>Your plant disease analysis history will appear here 🌱</p>
+                    </div>
+                `;
+                return;
+            }
+
+            historyGrid.innerHTML = analysisHistory.map(item => `
+                <div class="history-item" onclick="viewHistoryItem(${item.id})">
+                    <div class="history-image">
+                        ${item.image ? `<img src="${item.image}" alt="Plant" style="width: 100%; height: 100%; object-fit: cover;">` : '🌿'}
+                    </div>
+                    <div class="history-content">
+                        <div class="history-date">📅 ${item.date}</div>
+                        <div class="history-disease">${item.diseaseName}</div>
+                        <div class="history-confidence">🎯 ${item.confidence} confidence</div>
+                        ${item.location ? `<p style="font-size: 0.85rem; color: #6c757d;">📍 ${item.location}</p>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewHistoryItem(id) {
+            const item = analysisHistory.find(h => h.id === id);
+            if (item) {
+                const treatmentList = item.treatment;
+                const locationInfo = item.location ? `\n📍 Location: ${item.location}` : '';
+                alert(`📊 Analysis Details:\n\n🦠 Disease: ${item.diseaseName}\n📂 Category: ${item.category}\n🎯 Confidence: ${item.confidence}\n📅 Date: ${item.date}${locationInfo}\n\n💊 Treatment Steps:\n${treatmentList}`);
+            }
+        }
+
+        // Alert System
+        function showAlert(message, type = 'info') {
+            const alertArea = document.getElementById('alertArea');
+            const alertId = Date.now();
+            
+            const alertHtml = `
+                <div id="alert-${alertId}" class="alert alert-${type}">
+                    ${getAlertIcon(type)} ${message}
+                </div>
+            `;
+            
+            alertArea.insertAdjacentHTML('beforeend', alertHtml);
+            
+            setTimeout(() => {
+                const alertElement = document.getElementById(`alert-${alertId}`);
+                if (alertElement) {
+                    alertElement.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => alertElement.remove(), 300);
+                }
+            }, 5000);
+        }
+
+        function getAlertIcon(type) {
+            switch(type) {
+                case 'success': return '✅';
+                case 'warning': return '⚠️';
+                case 'error': return '❌';
+                default: return 'ℹ️';
+            }
+        }
+
+        // Utility Functions
+        window.removeImage = removeImage;
+        window.viewHistoryItem = viewHistoryItem;
+        window.scrollToDetection = scrollToDetection;
+    </script>
+</body>
+</html>
