@@ -65,3 +65,7 @@ Follow these steps to run Agro Vision on your local machine.
 You can access the live version of Agro Vision deployed on Hugging Face Spaces:
 
 [**https://huggingface.co/spaces/devil610/agrovision**](https://huggingface.co/spaces/devil610/agrovision)
+
+
+## Demo Video
+[![Watch the video]([https://i.sstatic.net/Vp2cE.png](https://github.com/anu-610/agro-vision/blob/main/demo-photo.png))]([https://youtu.be/vt5fpE0bzSY](https://github.com/anu-610/agro-vision/blob/main/demo%20video.webm))
