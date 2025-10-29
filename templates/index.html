@@ -988,6 +988,8 @@
                                 <div id="confidenceLevel" class="confidence-fill" style="width: 0%"></div>
                             </div>
                             <span id="confidenceText">0%</span>
+                            <br>
+                            <p id="location_name"></p>
                         </div>
 
                         <div class="treatment-section">
@@ -1374,7 +1376,7 @@
                 //DO error handling
             }
             else{
-                displayResults(data.disease,"None", data.confidence, data.solution);
+                displayResults(data.disease,"None", data.confidence, data.solution, data.location_name);
             }
 
             // Reset loading state
@@ -1384,20 +1386,24 @@
             showAlert('Analysis completed successfully! 🎉', 'success');
         }
 
-        function displayResults(diseaseName, category, confidence, treatment) {
-            console.log(treatment)
+        function displayResults(diseaseName, category, confidence, treatment, location_name) {
+            console.log(location_name);
             const resultsSection = document.getElementById('resultsSection');
             const diseaseNameEl = document.getElementById('diseaseName');
             const confidenceLevelEl = document.getElementById('confidenceLevel');
             const confidenceTextEl = document.getElementById('confidenceText');
             const treatmentStepsEl = document.getElementById('treatmentSteps');
+            const loc_name = document.getElementById('location_name');
 
             diseaseNameEl.textContent = diseaseName;
             confidenceTextEl.textContent = `${confidence}`;
 
             // Display treatment steps
             treatmentStepsEl.innerHTML = `<pre>${treatment}</pre>`;
-            
+
+            if (location_name){
+                loc_name.innerText = location_name;
+            }
             // Animate confidence bar
             setTimeout(() => {
                 confidenceLevelEl.style.width = `${confidence}`;
