@@ -68,4 +68,4 @@ You can access the live version of Agro Vision deployed on Hugging Face Spaces:
 
 
 ## Demo Video
-[![Watch the video]([https://i.sstatic.net/Vp2cE.png](https://github.com/anu-610/agro-vision/blob/main/demo-photo.png))]([https://youtu.be/vt5fpE0bzSY](https://github.com/anu-610/agro-vision/blob/main/demo%20video.webm))
+[**Watch the demo video**](https://www.youtube.com/watch?v=FF5wYb8AJU0)
